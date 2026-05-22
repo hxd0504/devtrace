@@ -2,8 +2,8 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-devtrace}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devtrace123}
+      POSTGRES_USER: ${POSTGRES_USER:?请设置 POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请设置 POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB:-devtrace}
     ports:
       - "5432:5432"
@@ -17,8 +17,8 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-devtrace}:${POSTGRES_PASSWORD:-devtrace123}@postgres:5432/${POSTGRES_DB:-devtrace}
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-devtrace}
+      SECRET_KEY: ${SECRET_KEY:?请设置 SECRET_KEY}
     volumes:
       - ./backend:/app
 

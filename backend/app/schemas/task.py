@@ -9,7 +9,7 @@ class TaskCreate(BaseModel):
     executor_name: str | None = None
     executor_type: str | None = None
     executor_note: str | None = None
-    related_files: list[dict] = []
+    related_files: list[dict] = Field(default_factory=list)
     evidence_source: str | None = None
     evidence_summary: str | None = None
     acceptance_criteria: str | None = None
@@ -77,4 +77,4 @@ class TaskDraftResponse(BaseModel):
     evidence_summary: str | None = None
     acceptance_criteria: str | None = None
     risk_level: str | None = None
-    tags: list[str] = []
+    tags: list[str] = Field(default_factory=list)

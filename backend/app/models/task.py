@@ -17,7 +17,7 @@ class Task(Base):
     executor_name = Column(String(100))
     executor_type = Column(String(20))
     executor_note = Column(Text)
-    related_files = Column(JSONB, default=[])
+    related_files = Column(JSONB, default=list)
     evidence_source = Column(Text)
     evidence_summary = Column(Text)
     acceptance_criteria = Column(Text)

@@ -5,7 +5,22 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
-    { path: '/', redirect: '/workspaces' },
+    { path: '/', redirect: '/chat' },
+    // V2 聊天界面（主界面）
+    {
+      path: '/chat',
+      component: () => import('@/views/ChatView.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        { path: '', name: 'ChatHome', component: () => import('@/components/chat/ChatWindow.vue') },
+        { path: ':conversationId', name: 'ChatDetail', component: () => import('@/components/chat/ChatWindow.vue'), props: true },
+      ],
+    },
+    // V2 知识库
+    { path: '/knowledge', name: 'Knowledge', component: () => import('@/views/KnowledgeView.vue'), meta: { requiresAuth: true } },
+    // V2 设置
+    { path: '/settings', name: 'Settings', component: () => import('@/views/SettingsView.vue'), meta: { requiresAuth: true } },
+    // V1 保留路由
     { path: '/workspaces', name: 'WorkspaceList', component: () => import('@/views/WorkspaceList.vue'), meta: { requiresAuth: true } },
     { path: '/workspace/:id', name: 'WorkspaceDetail', component: () => import('@/views/WorkspaceDetail.vue'), meta: { requiresAuth: true } },
     { path: '/workspace/:id/issue/create', name: 'IssueCreate', component: () => import('@/views/IssueCreate.vue'), meta: { requiresAuth: true } },
@@ -19,7 +34,7 @@ router.beforeEach(async (to) => {
 
   // 已登录用户不允许访问登录页
   if (to.path === '/login' && authStore.token) {
-    return '/workspaces'
+    return '/chat'
   }
 
   // 未登录用户访问需认证页面

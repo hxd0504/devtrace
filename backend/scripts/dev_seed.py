@@ -38,9 +38,11 @@ def seed_users(db: Session):
         print("admin 用户已存在，跳过")
         return existing
 
+    import os
+    default_password = os.getenv("ADMIN_PASSWORD", "请修改为你的密码")
     user = User(
         username="admin",
-        password_hash=hash_password("admin123"),
+        password_hash=hash_password(default_password),
     )
     db.add(user)
     db.commit()

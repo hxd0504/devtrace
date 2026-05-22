@@ -3,7 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from app.config import settings
-from app.routers import auth, workspace, issue, task, note, ai
+from app.routers import (
+    auth, workspace, issue, task, note, ai,
+    conversation, dispatch, knowledge, import_data,
+)
 
 app = FastAPI(title=settings.APP_NAME, debug=settings.DEBUG)
 
@@ -16,12 +19,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# V1 路由
 app.include_router(auth.router)
 app.include_router(workspace.router)
 app.include_router(issue.router)
 app.include_router(task.router)
 app.include_router(note.router)
 app.include_router(ai.router)
+
+# V2 路由
+app.include_router(conversation.router)
+app.include_router(dispatch.router)
+app.include_router(knowledge.router)
+app.include_router(import_data.router)
 
 
 @app.get("/health")

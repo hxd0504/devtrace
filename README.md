@@ -157,8 +157,12 @@ npm run dev
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
-| DATABASE_URL | 数据库连接串 | postgresql://user:password@localhost:5432/devtrace |
-| SECRET_KEY | JWT密钥 | 需要修改 |
+| POSTGRES_USER | 数据库用户 | devtrace |
+| POSTGRES_PASSWORD | 数据库密码 | 需要设置 |
+| POSTGRES_DB | 数据库名 | devtrace |
+| DATABASE_URL | 数据库连接串 | 自动生成 |
+| SECRET_KEY | JWT密钥 | 需要设置 |
+| ADMIN_PASSWORD | 管理员密码 | 需要设置 |
 | VITE_USE_MOCK | 前端Mock开关 | true |
 
 ### 数据库迁移

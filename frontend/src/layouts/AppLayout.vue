@@ -3,7 +3,9 @@
     <el-aside width="200px">
       <div class="logo">DevTrace</div>
       <el-menu :default-active="route.path" router>
+        <el-menu-item index="/chat">AI 指挥中心</el-menu-item>
         <el-menu-item index="/workspaces">项目空间</el-menu-item>
+        <el-menu-item index="/knowledge">知识库</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
