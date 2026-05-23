@@ -45,17 +45,19 @@ const mockRecords: DispatchRecord[] = [
   },
 ]
 
+let nextId = 2
+
 export const mockDispatchApi = {
-  dispatch(data: { task_id: number; ai_tool?: string }): Promise<DispatchResponse> {
+  dispatch(data: { task_id: number; task_type?: string; preferred_ai?: string }): Promise<DispatchResponse> {
     return Promise.resolve({
-      recommended_tool: data.ai_tool || 'Claude Code',
-      reason: '基于任务类型分析，推荐使用 Claude Code 执行代码生成任务',
+      id: nextId++,
+      task_id: data.task_id,
+      ai_tool: data.preferred_ai || 'Claude Code',
+      dispatch_reason: '基于任务类型分析，推荐使用 Claude Code 执行代码生成任务',
       risk_level: 'low',
       execution_prompt: `请执行以下任务（Task #${data.task_id}）：\n根据上下文信息完成代码实现`,
-      alternatives: [
-        { tool: 'Codex', reason: '备选方案，适合测试代码生成' },
-        { tool: 'GPT', reason: '适合文档和方案设计' },
-      ],
+      success: null,
+      created_at: new Date().toISOString(),
     })
   },
   getRecords(taskId?: number): Promise<DispatchRecord[]> {

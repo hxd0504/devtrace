@@ -41,12 +41,14 @@ import { ref, reactive, onMounted } from 'vue'
 import { Plus, Folder } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { workspaceApi } from '@/api/workspace'
+import { useWorkspaceStore } from '@/stores/workspace'
 import type { Workspace } from '@/types/workspace'
 
 const emit = defineEmits<{
   select: [workspace: Workspace]
 }>()
 
+const workspaceStore = useWorkspaceStore()
 const workspaces = ref<Workspace[]>([])
 const selectedId = ref<number | null>(null)
 const showCreate = ref(false)
@@ -63,6 +65,7 @@ const loadWorkspaces = async () => {
 
 const selectWorkspace = (ws: Workspace) => {
   selectedId.value = ws.id
+  workspaceStore.setWorkspace(ws.id)
   emit('select', ws)
 }
 

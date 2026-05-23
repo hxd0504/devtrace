@@ -10,7 +10,7 @@
     <div class="chain-steps">
       <div v-for="(step, idx) in chain.thought_chain" :key="idx" class="step">
         <span class="step-num">{{ idx + 1 }}</span>
-        <span class="step-text">{{ step }}</span>
+        <span class="step-text">{{ step.content }}</span>
       </div>
     </div>
 

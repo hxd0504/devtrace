@@ -15,10 +15,10 @@ export const mockImportApi = {
     }
     return Promise.resolve(conv)
   },
-  importManual(data: { title: string; content: string }): Promise<Conversation> {
+  importManual(data: { title: string; content: string; workspace_id?: number }): Promise<Conversation> {
     const conv: Conversation = {
       id: nextId++,
-      workspace_id: 1,
+      workspace_id: data.workspace_id || 1,
       title: data.title,
       source: 'manual_import',
       created_by: 1,

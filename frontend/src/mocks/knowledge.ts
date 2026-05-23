@@ -1,4 +1,4 @@
-import type { ThoughtChain } from '@/types/knowledge'
+import type { ThoughtChain, ThoughtStep } from '@/types/knowledge'
 
 const mockThoughtChains: ThoughtChain[] = [
   {
@@ -6,11 +6,11 @@ const mockThoughtChains: ThoughtChain[] = [
     workspace_id: 1,
     problem: 'Docker 镜像拉取失败',
     thought_chain: [
-      '检查网络连接 - ping docker.io 失败',
-      '检查镜像源配置 - 使用默认源',
-      '发现是代理问题 - 服务器未配置代理',
-      '配置国内镜像源 - 修改 daemon.json',
-      '测试拉取成功 - docker pull nginx 成功',
+      { step: 1, content: '检查网络连接 - ping docker.io 失败', role: 'assistant' },
+      { step: 2, content: '检查镜像源配置 - 使用默认源', role: 'assistant' },
+      { step: 3, content: '发现是代理问题 - 服务器未配置代理', role: 'assistant' },
+      { step: 4, content: '配置国内镜像源 - 修改 daemon.json', role: 'assistant' },
+      { step: 5, content: '测试拉取成功 - docker pull nginx 成功', role: 'assistant' },
     ],
     tags: ['Docker', '网络', '代理'],
     source: 'auto_extract',
@@ -23,11 +23,11 @@ const mockThoughtChains: ThoughtChain[] = [
     workspace_id: 1,
     problem: 'JWT Token 过期处理',
     thought_chain: [
-      '用户反馈频繁掉线',
-      '检查 token 过期时间设置 - 30分钟',
-      '分析 refresh token 机制 - 未实现',
-      '实现 token 自动刷新逻辑',
-      '添加 axios 拦截器处理 401',
+      { step: 1, content: '用户反馈频繁掉线', role: 'user' },
+      { step: 2, content: '检查 token 过期时间设置 - 30分钟', role: 'assistant' },
+      { step: 3, content: '分析 refresh token 机制 - 未实现', role: 'assistant' },
+      { step: 4, content: '实现 token 自动刷新逻辑', role: 'assistant' },
+      { step: 5, content: '添加 axios 拦截器处理 401', role: 'assistant' },
     ],
     tags: ['JWT', '认证', '前端'],
     source: 'auto_extract',
@@ -40,11 +40,11 @@ const mockThoughtChains: ThoughtChain[] = [
     workspace_id: 1,
     problem: '数据库连接池耗尽',
     thought_chain: [
-      '应用日志出现 connection timeout',
-      '检查数据库连接数 - 达到上限',
-      '分析慢查询日志 - 发现未加索引的查询',
-      '添加缺失索引',
-      '调整连接池大小为 20',
+      { step: 1, content: '应用日志出现 connection timeout', role: 'assistant' },
+      { step: 2, content: '检查数据库连接数 - 达到上限', role: 'assistant' },
+      { step: 3, content: '分析慢查询日志 - 发现未加索引的查询', role: 'assistant' },
+      { step: 4, content: '添加缺失索引', role: 'assistant' },
+      { step: 5, content: '调整连接池大小为 20', role: 'assistant' },
     ],
     tags: ['数据库', '性能', 'PostgreSQL'],
     source: 'manual',
@@ -60,7 +60,7 @@ export const mockKnowledgeApi = {
   list(workspaceId: number): Promise<ThoughtChain[]> {
     return Promise.resolve(mockThoughtChains.filter((tc) => tc.workspace_id === workspaceId))
   },
-  create(data: { workspace_id: number; problem: string; thought_chain: string[]; tags?: string[]; source?: string; related_issue_ids?: number[] }): Promise<ThoughtChain> {
+  create(data: { workspace_id: number; problem: string; thought_chain: ThoughtStep[]; tags?: string[]; source?: string; related_issue_ids?: number[] }): Promise<ThoughtChain> {
     const tc: ThoughtChain = {
       id: nextId++,
       workspace_id: data.workspace_id,
@@ -79,17 +79,21 @@ export const mockKnowledgeApi = {
     const results = mockThoughtChains.filter(
       (tc) =>
         tc.workspace_id === workspaceId &&
-        (tc.problem.includes(query) || tc.tags.some((t) => t.includes(query)) || tc.thought_chain.some((s) => s.includes(query))),
+        (tc.problem.includes(query) || tc.tags.some((t) => t.includes(query)) || tc.thought_chain.some((s) => s.content.includes(query))),
     )
     return Promise.resolve(results)
   },
   extract(conversationId: number): Promise<ThoughtChain[]> {
-    // 模拟从对话中提取思维链
     const tc: ThoughtChain = {
       id: nextId++,
       workspace_id: 1,
       problem: `从对话 #${conversationId} 自动提取的问题`,
-      thought_chain: ['分析对话内容', '识别关键问题', '提取解决步骤', '保存到知识库'],
+      thought_chain: [
+        { step: 1, content: '分析对话内容', role: 'assistant' },
+        { step: 2, content: '识别关键问题', role: 'assistant' },
+        { step: 3, content: '提取解决步骤', role: 'assistant' },
+        { step: 4, content: '保存到知识库', role: 'assistant' },
+      ],
       tags: ['自动提取'],
       source: 'auto_extract',
       related_issue_ids: [],
