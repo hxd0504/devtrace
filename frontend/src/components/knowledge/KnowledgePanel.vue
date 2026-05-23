@@ -26,7 +26,7 @@
         <el-form-item label="思维链">
           <div v-for="(step, idx) in form.thought_chain" :key="idx" class="step-input">
             <span class="step-num">{{ idx + 1 }}.</span>
-            <el-input v-model="form.thought_chain[idx]" placeholder="输入思考步骤" />
+            <el-input v-model="step.content" placeholder="输入思考步骤" />
             <el-button :icon="Delete" circle size="small" @click="removeStep(idx)" />
           </div>
           <el-button size="small" @click="addStep">添加步骤</el-button>
@@ -52,7 +52,7 @@ import { ElMessage } from 'element-plus'
 import ThoughtChainCard from './ThoughtChainCard.vue'
 import ThoughtChainSearch from './ThoughtChainSearch.vue'
 import { knowledgeApi } from '@/api/knowledge'
-import type { ThoughtChain } from '@/types/knowledge'
+import type { ThoughtChain, ThoughtStep } from '@/types/knowledge'
 
 const props = defineProps<{ workspaceId: number }>()
 
@@ -60,7 +60,7 @@ const chains = ref<ThoughtChain[]>([])
 const showCreate = ref(false)
 const form = reactive({
   problem: '',
-  thought_chain: [''],
+  thought_chain: [{ content: '' }] as ThoughtStep[],
   tags: [] as string[],
 })
 
@@ -85,7 +85,7 @@ const handleSearch = async (query: string) => {
 }
 
 const addStep = () => {
-  form.thought_chain.push('')
+  form.thought_chain.push({ content: '' })
 }
 
 const removeStep = (idx: number) => {
@@ -97,7 +97,7 @@ const handleCreate = async () => {
     ElMessage.warning('请输入问题描述')
     return
   }
-  const validSteps = form.thought_chain.filter((s) => s.trim())
+  const validSteps = form.thought_chain.filter((s) => s.content.trim())
   if (validSteps.length === 0) {
     ElMessage.warning('请至少添加一个思维步骤')
     return
@@ -113,7 +113,7 @@ const handleCreate = async () => {
     ElMessage.success('创建成功')
     showCreate.value = false
     form.problem = ''
-    form.thought_chain = ['']
+    form.thought_chain = [{ content: '' }]
     form.tags = []
     await loadChains()
   } catch {

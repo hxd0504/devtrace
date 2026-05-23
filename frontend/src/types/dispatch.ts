@@ -15,27 +15,22 @@ export interface AITagUpdate {
 
 export interface DispatchRequest {
   task_id: number
-  ai_tool?: string
-  reason?: string
+  task_type?: string
+  preferred_ai?: string
 }
 
 export interface DispatchResponse {
-  recommended_tool: string
-  reason: string
-  risk_level: string
-  execution_prompt: string
-  alternatives: { tool: string; reason: string }[]
-}
-
-export interface DispatchRecord {
   id: number
   task_id: number
   ai_tool: string
   dispatch_reason: string | null
   risk_level: string | null
   execution_prompt: string | null
-  execution_result: string | null
-  duration_seconds: number | null
   success: boolean | null
   created_at: string
+}
+
+export interface DispatchRecord extends DispatchResponse {
+  execution_result: string | null
+  duration_seconds: number | null
 }

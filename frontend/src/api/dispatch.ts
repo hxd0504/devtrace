@@ -11,7 +11,7 @@ export const dispatchApi = {
   getAITags(workspaceId?: number): Promise<AITag[]> {
     return api.get('/ai-tags', { params: workspaceId ? { workspace_id: workspaceId } : {} })
   },
-  updateAITag(aiTool: string, data: AITagUpdate): Promise<AITag> {
-    return api.put(`/ai-tags/${aiTool}`, data)
+  updateAITag(aiTool: string, data: AITagUpdate, workspaceId: number): Promise<AITag> {
+    return api.put(`/ai-tags/${aiTool}`, data, { params: { workspace_id: workspaceId } })
   },
 }

@@ -58,7 +58,7 @@ import { ElMessage } from 'element-plus'
 import ImportPreview from './ImportPreview.vue'
 import { importApi } from '@/api/import'
 
-defineProps<{ modelValue: boolean }>()
+const props = defineProps<{ modelValue: boolean; workspaceId?: number }>()
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
   imported: [conversationId: number]
@@ -108,6 +108,7 @@ const handleImport = async () => {
       conv = await importApi.importManual({
         title: manualForm.title,
         content: manualForm.content,
+        workspace_id: props.workspaceId || 1,
       })
     }
     ElMessage.success('导入成功')

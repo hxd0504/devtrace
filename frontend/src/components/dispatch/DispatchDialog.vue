@@ -12,36 +12,28 @@
     <template v-else-if="result">
       <div class="dispatch-result">
         <el-alert
-          :title="`推荐工具：${result.recommended_tool}`"
-          :description="result.reason"
+          :title="`推荐工具：${result.ai_tool}`"
+          :description="result.dispatch_reason || ''"
           type="success"
           show-icon
           :closable="false"
         />
 
-        <div class="detail-section">
+        <div class="detail-section" v-if="result.execution_prompt">
           <h4>执行提示词</h4>
           <el-input
-            v-model="result.execution_prompt"
+            :model-value="result.execution_prompt"
             type="textarea"
             :rows="4"
             readonly
           />
         </div>
 
-        <div class="detail-section">
+        <div class="detail-section" v-if="result.risk_level">
           <h4>风险等级</h4>
           <el-tag :type="riskType(result.risk_level)" size="large">
             {{ riskLabel(result.risk_level) }}
           </el-tag>
-        </div>
-
-        <div class="detail-section" v-if="result.alternatives.length">
-          <h4>备选方案</h4>
-          <div v-for="alt in result.alternatives" :key="alt.tool" class="alt-item">
-            <span class="alt-tool">{{ alt.tool }}</span>
-            <span class="alt-reason">{{ alt.reason }}</span>
-          </div>
         </div>
       </div>
     </template>
@@ -112,28 +104,5 @@ const handleConfirm = () => {
   margin: 0 0 8px;
   font-size: 14px;
   color: #303133;
-}
-
-.alt-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid #ebeef5;
-}
-
-.alt-item:last-child {
-  border-bottom: none;
-}
-
-.alt-tool {
-  font-weight: 600;
-  color: #409eff;
-  min-width: 80px;
-}
-
-.alt-reason {
-  color: #606266;
-  font-size: 13px;
 }
 </style>
