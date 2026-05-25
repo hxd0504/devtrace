@@ -3,7 +3,7 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from app.database import Base
 from app.config import settings
-from app.models import User, Workspace, Issue, Task
+from app.models import User, Workspace, Issue, Task, Conversation, Message, AITag, DispatchRecord, ThoughtChain
 
 config = context.config
 if config.config_file_name is not None:
