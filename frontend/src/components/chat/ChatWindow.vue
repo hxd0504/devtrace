@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, onMounted } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ChatDotRound, Refresh, MoreFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'

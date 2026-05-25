@@ -3,7 +3,7 @@ import type { Conversation } from '@/types/conversation'
 let nextId = 100
 
 export const mockImportApi = {
-  importChatGPT(data: { url?: string; content: string }): Promise<Conversation> {
+  importChatGPT(_data: { url?: string; content: string }): Promise<Conversation> {
     const conv: Conversation = {
       id: nextId++,
       workspace_id: 1,
