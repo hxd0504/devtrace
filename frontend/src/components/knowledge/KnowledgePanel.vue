@@ -4,7 +4,7 @@
       <h2>知识库</h2>
       <div class="header-actions">
         <ThoughtChainSearch :workspace-id="workspaceId" @search="handleSearch" />
-        <el-button type="primary" :icon="Plus" @click="showCreate = true">新建思维链</el-button>
+        <el-button type="primary" :icon="Plus" @click="showCreate = true">新建解决路径</el-button>
       </div>
     </div>
 
@@ -14,19 +14,19 @@
         :key="chain.id"
         :chain="chain"
       />
-      <el-empty v-if="chains.length === 0" description="暂无思维链数据" />
+      <el-empty v-if="chains.length === 0" description="暂无解决路径数据" />
     </div>
 
     <!-- 新建弹窗 -->
-    <el-dialog v-model="showCreate" title="新建思维链" width="600px">
+    <el-dialog v-model="showCreate" title="新建解决路径" width="600px">
       <el-form :model="form" label-width="80px">
         <el-form-item label="问题">
           <el-input v-model="form.problem" placeholder="描述遇到的问题" />
         </el-form-item>
-        <el-form-item label="思维链">
+        <el-form-item label="解决路径">
           <div v-for="(step, idx) in form.thought_chain" :key="idx" class="step-input">
             <span class="step-num">{{ idx + 1 }}.</span>
-            <el-input v-model="form.thought_chain[idx]" placeholder="输入思考步骤" />
+            <el-input v-model="form.thought_chain[idx]" placeholder="输入解决步骤" />
             <el-button :icon="Delete" circle size="small" @click="removeStep(idx)" />
           </div>
           <el-button size="small" @click="addStep">添加步骤</el-button>
@@ -99,7 +99,7 @@ const handleCreate = async () => {
   }
   const validSteps = form.thought_chain.filter((s) => s.trim())
   if (validSteps.length === 0) {
-    ElMessage.warning('请至少添加一个思维步骤')
+    ElMessage.warning('请至少添加一个解决步骤')
     return
   }
   try {

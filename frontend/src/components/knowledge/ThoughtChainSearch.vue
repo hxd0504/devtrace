@@ -2,7 +2,7 @@
   <div class="thought-chain-search">
     <el-input
       v-model="query"
-      placeholder="搜索思维链..."
+      placeholder="搜索解决路径..."
       clearable
       :prefix-icon="Search"
       @keyup.enter="handleSearch"

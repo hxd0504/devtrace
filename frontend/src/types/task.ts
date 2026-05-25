@@ -36,6 +36,7 @@ export interface TaskCreate {
   evidence_summary?: string
   acceptance_criteria?: string
   risk_level?: RiskLevel
+  tags?: string[]
 }
 
 export interface TaskUpdate {
