@@ -1,8 +1,8 @@
 from sqlalchemy import Column, BigInteger, String, Text, Integer, Boolean, DateTime, ForeignKey, CheckConstraint, Index
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
+from app.utils.types import CompatibleJSON
 
 
 class Issue(Base):
@@ -18,14 +18,14 @@ class Issue(Base):
     executor_name = Column(String(100))
     executor_type = Column(String(20))
     executor_note = Column(Text)
-    related_files = Column(JSONB, default=[])
+    related_files = Column(CompatibleJSON, default=list)
     evidence_note = Column(Text)
     root_cause = Column(Text)
     failed_attempts = Column(Text)
     final_solution = Column(Text)
     reusable = Column(Boolean, default=False)
-    tags = Column(JSONB, default=[])
-    activity_log = Column(JSONB, default=list)
+    tags = Column(CompatibleJSON, default=list)
+    activity_log = Column(CompatibleJSON, default=list)
     version = Column(Integer, default=1)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())

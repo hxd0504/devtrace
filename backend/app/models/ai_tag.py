@@ -1,7 +1,7 @@
 from sqlalchemy import Column, BigInteger, String, DateTime, ForeignKey, UniqueConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from app.database import Base
+from app.utils.types import CompatibleJSON
 
 
 class AITag(Base):
@@ -10,8 +10,8 @@ class AITag(Base):
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     ai_tool = Column(String(50), nullable=False)
     workspace_id = Column(BigInteger, ForeignKey("workspaces.id"), nullable=False)
-    tags = Column(JSONB, nullable=False, default=dict)
-    stats = Column(JSONB, nullable=False, default=dict)
+    tags = Column(CompatibleJSON, nullable=False, default=dict)
+    stats = Column(CompatibleJSON, nullable=False, default=dict)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 

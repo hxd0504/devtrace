@@ -1,8 +1,8 @@
 from sqlalchemy import Column, BigInteger, String, Text, Integer, DateTime, ForeignKey, CheckConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
+from app.utils.types import CompatibleJSON
 
 
 class Task(Base):
@@ -17,12 +17,12 @@ class Task(Base):
     executor_name = Column(String(100))
     executor_type = Column(String(20))
     executor_note = Column(Text)
-    related_files = Column(JSONB, default=list)
+    related_files = Column(CompatibleJSON, default=list)
     evidence_source = Column(Text)
     evidence_summary = Column(Text)
     acceptance_criteria = Column(Text)
     risk_level = Column(String(20))
-    activity_log = Column(JSONB, default=list)
+    activity_log = Column(CompatibleJSON, default=list)
     version = Column(Integer, default=1)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())

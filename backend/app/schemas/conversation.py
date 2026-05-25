@@ -26,7 +26,7 @@ class MessageCreate(BaseModel):
     role: Literal["user", "assistant", "system"]
     content: str
     message_type: Literal["text", "execution_result", "knowledge_extract", "system_notify"] = "text"
-    metadata: dict | None = None
+    extra_data: dict | None = None
 
 
 class MessageResponse(BaseModel):
@@ -35,7 +35,7 @@ class MessageResponse(BaseModel):
     role: str
     content: str
     message_type: str
-    metadata: dict
+    extra_data: dict
     created_at: datetime
 
     class Config:
